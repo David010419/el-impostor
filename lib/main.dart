@@ -257,7 +257,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
       backgroundColor: const Color(0xFF1A2A30),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20), 
-        side: const BorderSide(color: Colors.amber)
+        side: const BorderSide(color: Color(0xFFFFC107))
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),

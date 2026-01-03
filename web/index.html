@@ -41,8 +41,162 @@
   <link rel="manifest" href="manifest.json">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3207283705047602"
      crossorigin="anonymous"></script>
+
+     <style>
+    :root {
+      --bg-color:#1A2A30; 
+      --accent-color: #FFC107;
+      --text-color: #ffffff;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden !important;
+      background-color: var(--bg-color);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    /* CAPA DEL JUEGO: Ahora nos aseguramos de que acepte clics */
+    #game-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: auto; /* Permite clics siempre */
+    }
+
+    /* CAPA DE INFO: Usamos pointer-events para que no moleste al estar cerrada */
+    #info-layer {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      z-index: 9999;
+      transition: top 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+      overflow-y: auto;
+      pointer-events: none; /* BLOQUEA CLICS CUANDO ESTÁ CERRADA */
+    }
+
+    /* Cuando añadimos la clase 'open', la capa permite clics */
+    #info-layer.open {
+      top: 0;
+      pointer-events: auto; /* PERMITE CLICS CUANDO ESTÁ ABIERTA */
+    }
+
+    .nav-btn {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      z-index: 100000;
+      padding: 15px 25px;
+      border-radius: 50px;
+      border: 2px solid var(--accent-color);
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+    #btn-down { background: var(--accent-color); color: white; display: block; }
+    #btn-up { background: var(--accent-color); color: white; display: none; }
+
+    .container { max-width: 800px; margin: 0 auto; padding: 60px 25px 120px 25px; }
+    .rules-box { background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0; }
+    .mode-title { color: var(--accent-color); font-weight: bold; display: block; margin-top: 15px; }
+    .carousel img { width: 100%; max-width: 350px; border-radius: 12px; margin: 10px; border: 1px solid #444; }
+    footer { text-align: center; padding: 40px; opacity: 0.5; }
+    footer a { color: white; }
+  </style>
 </head>
 <body>
+
+  
+  <button id="btn-down" class="nav-btn" onclick="openInfo()">❓ Explora</button>
+  <button id="btn-up" class="nav-btn" onclick="closeInfo()">🎮 Volver al Juego</button>
+
+  <div id="game-layer">
+    <script>
+      window.addEventListener('load', function(ev) {
+        _flutter.loader.loadEntrypoint({
+          onEntrypointLoaded: function(engineInitializer) {
+            engineInitializer.initializeEngine({
+              hostElement: document.querySelector('#game-layer')
+            }).then(function(appRunner) {
+              appRunner.runApp();
+            });
+          }
+        });
+      });
+    </script>
   <script src="flutter_bootstrap.js" async></script>
+
+  </div>
+
+  <div id="info-layer">
+    <div class="container">
+      <h1>Instrucciones del Juego del Impostor</h1>
+      
+      <div class="rules-box">
+        <p>El juego consiste en un grupo de jugadores donde todos conocen una palabra secreta, excepto <b>el impostor</b>.</p>
+        
+        <span class="mode-title">🎯 Normas básicas</span>
+        <p>El objetivo es descubrir quién es el Impostor. Todos los jugadores reciben una palabra secreta, excepto el Impostor. Por turnos, cada jugador dice una palabra o frase corta relacionada con la palabra secreta. ¡Cuidado! Si eres demasiado obvio, el Impostor adivinará la palabra y ganará. Si eres demasiado críptico, los demás pensarán que tú eres el Impostor.</p>
+        <span class="mode-title">🎭 Modo Mímica</span>
+        <p>¡Está prohibido hablar! En este modo, los jugadores deben describir su palabra secreta únicamente mediante gestos. El Impostor debe estar muy atento para imitar los movimientos de los demás e intentar deducir de qué se trata sin que le pillen.</p>
+        <span class="mode-title">⏱️ Tiempo de Debate</span>
+        <p>Cuando el temporizador llega a cero o todos han dado su pista, comienza el debate. Discutid abiertamente quién creéis que miente o quién ha dado una pista sospechosa. Al finalizar el tiempo de discusión, se procederá a la votación.</p>
+        <span class="mode-title">💡 Pistas del Impostor</span>
+        <p>Si esta opción está activa, el Impostor recibirá una ayuda visual sobre la categoría de la palabra (ej: "Es una comida" o "Es un lugar"). Esto le servirá para mimetizarse mejor y tener una oportunidad de sobrevivir las primeras rondas.</p>
+        <span class="mode-title">☠️ Ruleta de Castigos</span>
+        <p>Si los jugadores expulsan a un inocente, o si el impostor es finalmente cazado, el expulsado deberá girar la ruleta y cumplir el castigo físico o social que aparezca en pantalla. ¡Asegúrate de haber añadido castigos divertidos en la configuración!</p>
+
+      </div>
+
+      <h2>Galería</h2>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+        <img src="../assets/1.png" alt="Pantalla 1" width="800" height="400">
+      </div>
+
+      <div style="height: 250px; background: #222; border: 2px dashed #444; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 40px 0; color: #777;">
+        [ Espacio Reservado para Publicidad]
+        
+      </div>
+
+      <div style="background: var(--bg-color); color: #FFC107; padding: 25px; border-radius: 20px;">
+        <h3>¿Necesitas una Web o App?</h3>
+        <p>Cuentame tu idea y y veamos las posibilidades. Envíame un email a mi correo: davidcastillogallardo97@gmail.com</p>
+      </div>
+
+      <footer>
+        <p>© 2026 Small Apps DC | <a href="privacidad.html">Privacidad</a></p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const infoLayer = document.getElementById('info-layer');
+    const btnDown = document.getElementById('btn-down');
+    const btnUp = document.getElementById('btn-up');
+
+    function openInfo() {
+      infoLayer.classList.add('open'); // Sube la capa y activa sus clics
+      btnDown.style.display = "none";
+      btnUp.style.display = "block";
+    }
+
+    function closeInfo() {
+      infoLayer.classList.remove('open'); // Baja la capa y desactiva sus clics
+      btnUp.style.display = "none";
+      btnDown.style.display = "block";
+      setTimeout(() => { infoLayer.scrollTop = 0; }, 500);
+    }
+  </script>
 </body>
 </html>

@@ -45,7 +45,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* CAPA DEL JUEGO */
+ 
     #game-layer {
       position: absolute;
       top: 0;
@@ -56,7 +56,7 @@
       pointer-events: auto;
     }
 
-    /* CAPA DE INFORMACIÓN (SEO Y REGLAS) */
+  
     #info-layer {
       position: absolute;
       top: 100%;
@@ -71,13 +71,13 @@
       pointer-events: none; 
     }
 
-    /* Clase para abrir la capa de info */
+   
     #info-layer.open {
       top: 0;
       pointer-events: auto;
     }
 
-    /* BOTONES DE NAVEGACIÓN */
+   
     .nav-btn {
       position: fixed;
       bottom: 25px;
@@ -98,7 +98,7 @@
     #btn-down { background: var(--accent-color); color: #1A2A30; display: block; }
     #btn-up { background: var(--accent-color); color: #1A2A30; display: none; }
 
-    /* CONTENEDOR Y REGLAS */
+   
     .container { max-width: 800px; margin: 0 auto; padding: 60px 25px 120px 25px; }
     
     .rules-box { 
@@ -153,7 +153,7 @@
     footer a { color: white; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* MEDIA QUERIES PARA MÓVIL */
+
     @media (max-width: 600px) {
       .container { padding: 40px 20px 100px 20px; }
       h1 { font-size: 24px; }
@@ -194,13 +194,16 @@
         <p>El objetivo es descubrir quién es el Impostor. Todos los jugadores reciben una palabra secreta, excepto el Impostor. Por turnos, cada jugador dice una palabra o frase corta relacionada con la palabra secreta. ¡Cuidado! Si eres demasiado obvio, el Impostor adivinará la palabra y ganará.</p>
         
         <span class="mode-title">🎭 Modo Mímica</span>
-        <p>¡Está prohibido hablar! En este modo, los jugadores deben describir su palabra secreta únicamente mediante gestos. El Impostor debe estar muy atento para imitar a los demás.</p>
+        <p>¡Está prohibido hablar! En este modo, los jugadores deben describir su palabra secreta únicamente mediante gestos. El Impostor debe estar muy atento para imitar los movimientos de los demás e intentar deducir de qué se trata sin que le pillen</p>
         
         <span class="mode-title">⏱️ Tiempo de Debate</span>
-        <p>Discutid abiertamente quién creéis que miente. Al finalizar el tiempo de discusión, se procederá a la votación para expulsar al sospechoso.</p>
-        
+        <p>Cuando el temporizador llega a cero o todos han dado su pista, comienza el debate. Discutid abiertamente quién creéis que miente o quién ha dado una pista sospechosa. Al finalizar el tiempo de discusión, se procederá a la votación.</p>
+
+        <span class="mode-title">💡 Pistas del Impostor</span>
+        <p>Si esta opción está activa, el Impostor recibirá una ayuda visual sobre la categoría de la palabra (ej: "Es una comida" o "Es un lugar"). Esto le servirá para mimetizarse mejor y tener una oportunidad de sobrevivir las primeras rondas.</p>
+
         <span class="mode-title">☠️ Ruleta de Castigos</span>
-        <p>Si los jugadores expulsan a un inocente, el expulsado deberá cumplir el castigo divertido que aparezca en pantalla.</p>
+        <p>Si los jugadores expulsan a un inocente, o si el impostor es finalmente cazado, el expulsado deberá girar la ruleta y cumplir el castigo físico o social que aparezca en pantalla. ¡Asegúrate de haber añadido castigos divertidos en la configuración!</p>
       </div>
 
       <h2>Galería</h2>
@@ -209,12 +212,12 @@
       </div>
 
       <div class="ad-placeholder">
-        <p>[ Espacio Reservado para Publicidad de Google AdSense ]</p>
+        <p>[ Espacio Reservado para Publicidad: Davidcastillogallardo97@gmail.com]</p>
       </div>
 
       <div class="contact-card">
         <h3>¿Necesitas una Web o App Profesional?</h3>
-        <p>Soy experto en el desarrollo de aplicaciones interactivas con Flutter. Si tienes una idea, hablemos por email:</p>
+        <p>Me gusta crear aplicaciones o páginas web. Si tienes una idea, hablemos por email:</p>
         <p><b>davidcastillogallardo97@gmail.com</b></p>
       </div>
 
@@ -239,7 +242,6 @@
       infoLayer.classList.remove('open');
       btnUp.style.display = "none";
       btnDown.style.display = "block";
-      // Reset del scroll al cerrar para que siempre empiece desde arriba
       setTimeout(() => { infoLayer.scrollTop = 0; }, 500);
     }
   </script>

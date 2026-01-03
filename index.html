@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  
+  <title>Juego del Impostor Online | El mejor juego de grupo</title>
+  <meta name="description" content="Juega al Impostor gratis y online. El mejor juego de deducción social para fiestas con amigos. ¿Quién es el impostor?">
+  <meta name="keywords" content="juego impostor, juego de fiesta, quien es el impostor, juego misterio online, flutter web game">
+  <link rel="canonical" href="https://theimpostor.es">
+
+  <meta property="og:title" content="Juego del Impostor Online">
+  <meta property="og:description" content="Descubre quién miente en este divertido juego de fiesta.">
+  <meta property="og:image" content="https://theimpostor.es/assets/images/logo.png">
+  <meta property="og:url" content="https://theimpostor.es">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="el_impostor_game">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="manifest.json">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3207283705047602"
+     crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg-color:#1A2A30; 
+      --accent-color: #FFC107;
+      --text-color: #ffffff;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden !important;
+      background-color: var(--bg-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+ 
+    #game-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: auto;
+    }
+
+  
+    #info-layer {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      z-index: 9999;
+      transition: top 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+      overflow-y: auto;
+      pointer-events: none; 
+    }
+
+   
+    #info-layer.open {
+      top: 0;
+      pointer-events: auto;
+    }
+
+   
+    .nav-btn {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      z-index: 100000;
+      padding: 15px 25px;
+      border-radius: 50px;
+      border: 2px solid var(--accent-color);
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+    .nav-btn:active { transform: scale(0.95); }
+
+    #btn-down { background: var(--accent-color); color: #1A2A30; display: block; }
+    #btn-up { background: var(--accent-color); color: #1A2A30; display: none; }
+
+   
+    .container { max-width: 800px; margin: 0 auto; padding: 60px 25px 120px 25px; }
+    
+    .rules-box { 
+      background: rgba(255, 255, 255, 0.05); 
+      padding: 25px; 
+      border-radius: 20px; 
+      border: 1px solid rgba(255, 255, 255, 0.1); 
+      margin: 20px 0; 
+      line-height: 1.6;
+    }
+
+    .mode-title { 
+      color: var(--accent-color); 
+      font-weight: bold; 
+      display: block; 
+      margin-top: 15px; 
+      font-size: 1.1em;
+    }
+
+    .responsive-img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 2px solid #333;
+      margin: 20px 0;
+    }
+
+    .ad-placeholder {
+      height: 250px; 
+      background: #121d21; 
+      border: 2px dashed #444; 
+      border-radius: 15px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      margin: 40px 0; 
+      color: #777;
+      text-align: center;
+    }
+
+    .contact-card {
+      background: rgba(255, 193, 7, 0.1); 
+      border: 1px solid var(--accent-color); 
+      color: #FFC107; 
+      padding: 25px; 
+      border-radius: 20px; 
+      margin-top: 40px;
+    }
+
+    footer { text-align: center; padding: 40px; opacity: 0.5; font-size: 14px; border-top: 1px solid #333; }
+    footer a { color: white; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+
+    @media (max-width: 600px) {
+      .container { padding: 40px 20px 100px 20px; }
+      h1 { font-size: 24px; }
+      .nav-btn { bottom: 20px; left: 20px; padding: 12px 20px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="btn-down" class="nav-btn" onclick="openInfo()">❓ Explora</button>
+  <button id="btn-up" class="nav-btn" onclick="closeInfo()">🎮 Volver al Juego</button>
+
+  <div id="game-layer">
+    <script>
+      window.addEventListener('load', function(ev) {
+        _flutter.loader.loadEntrypoint({
+          onEntrypointLoaded: function(engineInitializer) {
+            engineInitializer.initializeEngine({
+              hostElement: document.querySelector('#game-layer')
+            }).then(function(appRunner) {
+              appRunner.runApp();
+            });
+          }
+        });
+      });
+    </script>
+    <script src="flutter_bootstrap.js" async></script>
+  </div>
+
+  <div id="info-layer">
+    <div class="container">
+      <h1>Instrucciones del Juego del Impostor</h1>
+      
+      <div class="rules-box">
+        <p>El juego consiste en un grupo de jugadores donde todos conocen una palabra secreta, excepto <b>el impostor</b>.</p>
+        
+        <span class="mode-title">🎯 Normas básicas</span>
+        <p>El objetivo es descubrir quién es el Impostor. Todos los jugadores reciben una palabra secreta, excepto el Impostor. Por turnos, cada jugador dice una palabra o frase corta relacionada con la palabra secreta. ¡Cuidado! Si eres demasiado obvio, el Impostor adivinará la palabra y ganará.</p>
+        
+        <span class="mode-title">🎭 Modo Mímica</span>
+        <p>¡Está prohibido hablar! En este modo, los jugadores deben describir su palabra secreta únicamente mediante gestos. El Impostor debe estar muy atento para imitar los movimientos de los demás e intentar deducir de qué se trata sin que le pillen</p>
+        
+        <span class="mode-title">⏱️ Tiempo de Debate</span>
+        <p>Cuando el temporizador llega a cero o todos han dado su pista, comienza el debate. Discutid abiertamente quién creéis que miente o quién ha dado una pista sospechosa. Al finalizar el tiempo de discusión, se procederá a la votación.</p>
+
+        <span class="mode-title">💡 Pistas del Impostor</span>
+        <p>Si esta opción está activa, el Impostor recibirá una ayuda visual sobre la categoría de la palabra (ej: "Es una comida" o "Es un lugar"). Esto le servirá para mimetizarse mejor y tener una oportunidad de sobrevivir las primeras rondas.</p>
+
+        <span class="mode-title">☠️ Ruleta de Castigos</span>
+        <p>Si los jugadores expulsan a un inocente, o si el impostor es finalmente cazado, el expulsado deberá girar la ruleta y cumplir el castigo físico o social que aparezca en pantalla. ¡Asegúrate de haber añadido castigos divertidos en la configuración!</p>
+      </div>
+
+      <h2>Galería</h2>
+      <div style="display: flex; justify-content: center;">
+        <img src="assets/assets/1.png" alt="Captura de pantalla del Juego del Impostor" class="responsive-img">
+      </div>
+
+      <div class="ad-placeholder">
+        <p>[ Espacio Reservado para Publicidad: Davidcastillogallardo97@gmail.com]</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>¿Necesitas una Web o App Profesional?</h3>
+        <p>Me gusta crear aplicaciones o páginas web. Si tienes una idea, hablemos por email:</p>
+        <p><b>davidcastillogallardo97@gmail.com</b></p>
+      </div>
+
+      <footer>
+        <p>© 2026 Small Apps DC | <a href="privacidad.html">Política de Privacidad</a></p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const infoLayer = document.getElementById('info-layer');
+    const btnDown = document.getElementById('btn-down');
+    const btnUp = document.getElementById('btn-up');
+
+    function openInfo() {
+      infoLayer.classList.add('open'); 
+      btnDown.style.display = "none";
+      btnUp.style.display = "block";
+    }
+
+    function closeInfo() {
+      infoLayer.classList.remove('open');
+      btnUp.style.display = "none";
+      btnDown.style.display = "block";
+      setTimeout(() => { infoLayer.scrollTop = 0; }, 500);
+    }
+  </script>
+</body>
+</html>
